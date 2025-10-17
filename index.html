@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Gather (static)</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+      #headers { display:flex; align-items:center; gap:0.5rem; margin-bottom: 1rem; }
+      #headers .left { margin-right:auto; font-weight:bold; text-decoration:none; color:black; font-size:1.25rem; }
+      #headers .right { text-decoration:none; color:#333; }
+      .post { border: 1px solid #ddd; border-radius:8px; padding:0.75rem; margin-bottom:1rem; background:#fafafa; }
+      .top { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; }
+      .profilePic { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+      .image { max-width:100%; height:auto; display:block; margin:0.5rem 0; border-radius:6px; }
+      .text p { margin:0.25rem 0; }
+      form { margin-top:0.5rem; }
+      input[type="text"] { padding:0.4rem; width:60%; box-sizing:border-box; }
+      input[type="submit"], button { padding:0.4rem 0.6rem; }
+      .time { color:#888; font-size:0.9rem; text-decoration:none; margin-left:auto; }
+    </style>
+  </head>
+  <body>
+    <div id="headers">
+      <a class="left" href="/">Gather</a>
+      <a class="right" href="/users/logname/">logname</a>
+      <p class="right">|</p>
+      <a class="right" href="/explore/">explore</a>
+    </div>
+
+    <hr />
+
+    <div id="1" class="post">
+      <div class="top">
+        <a href="/users/alice/">
+          <img
+            class="profilePic"
+            src="/static/img/profile-placeholder.png"
+            alt="profile picture"
+          />
+        </a>
+        <a href="/users/alice/">alice</a>
+        <a href="/posts/1/" class="time">2025-10-16 14:00</a>
+      </div>
+
+      <div id="image1">
+        <img
+          class="image"
+          src="/static/img/image-placeholder.png"
+          alt="post image"
+        />
+        <div class="text">
+          <p>3 likes</p>
+
+          <p><a href="/users/bob/">bob</a> Nice shot!</p>
+          <p><a href="/users/carol/">carol</a> Love this.</p>
+        </div>
+
+        <!-- Non-functional like/unlike buttons (static) -->
+        <form action="#" method="get" style="display:inline-block; margin-right:0.5rem;">
+          <input type="hidden" name="postid" value="1"/>
+          <input type="submit" value="like"/>
+        </form>
+
+        <form action="#" method="get" style="display:inline-block;">
+          <input type="hidden" name="postid" value="1"/>
+          <input type="submit" value="unlike"/>
+        </form>
+
+        <!-- Non-functional comment form -->
+        <form action="#" method="get" style="margin-top:0.5rem;">
+          <input type="hidden" name="postid" value="1"/>
+          <input type="text" name="text" placeholder="Add a comment..." required/>
+          <input type="submit" value="comment"/>
+        </form>
+      </div>
+    </div>
+
+    <!-- You can copy/paste the above .post block to add more static posts -->
+
+  </body>
+</html>
