@@ -1,1 +1,1 @@
-# eecs497-project
+# Gather - EECS 497 Project
