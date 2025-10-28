@@ -1,17 +1,19 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
     <div id="headers">
       <div className="header-content">
-        <a className="left" href="/">
+        <Link className="left" to="/">
           Gather
-        </a>
-        <a className="right" href="/profile">
+        </Link>
+        <Link className="right" to="/profile">
           Profile
-        </a>
+        </Link>
         <p style={{ color: "white" }}>|</p>
-        <a className="right" href="/">
+        <Link className="right" to="/">
           Feed
-        </a>
+        </Link>
       </div>
     </div>
   );

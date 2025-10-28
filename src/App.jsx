@@ -1,8 +1,22 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import Header from "./components/Header";
-import Post from "./components/Post";
 import Footer from "./components/Footer";
+import Post from "./components/Post";
+import Login from "./login";
+import Profile from "./profile";
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const handleLogin = (username) => {
+    setLoggedInUser(username);
+  };
+
+  const handleLogout = () => {
+    setLoggedInUser(null);
+  };
+
   const posts = [
     {
       id: 1,
@@ -43,15 +57,33 @@ function App() {
   ];
 
   return (
-    <>
-      <Header />
-      <div className="post-container">
-        {posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-      </div>
-      <Footer />
-    </>
+    <Router>
+      {loggedInUser ? (
+        <>
+          <Header onLogout={handleLogout} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div className="post-container">
+                  {posts.map((post) => (
+                    <Post key={post.id} post={post} />
+                  ))}
+                </div>
+              }
+            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+          <Footer />
+        </>
+      ) : (
+        <Routes>
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      )}
+    </Router>
   );
 }
 
