@@ -102,14 +102,6 @@ function GlobalControls() {
                 </span>
               </button>
             </div>
-
-            {/* Info Text */}
-            <div className="control-info">
-              <p>
-                💡 These controls help make the site more accessible for all
-                users.
-              </p>
-            </div>
           </div>
         </div>
       )}
