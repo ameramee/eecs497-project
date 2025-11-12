@@ -20,14 +20,17 @@ function GlobalControls() {
     document.documentElement.style.fontSize = `${fontSize}%`;
   }, [fontSize]);
 
+  // Apply high contrast mode
+  useEffect(() => {
+    if (highContrast) {
+      document.documentElement.classList.add("high-contrast");
+    } else {
+      document.documentElement.classList.remove("high-contrast");
+    }
+  }, [highContrast]);
+
   const toggleHighContrast = () => {
     setHighContrast(!highContrast);
-    // TODO: Apply high contrast mode
-  };
-
-  const toggleReduceMotion = () => {
-    setReduceMotion(!reduceMotion);
-    // TODO: Apply reduced motion
   };
 
   return (
@@ -96,21 +99,6 @@ function GlobalControls() {
                 <span className="toggle-indicator"></span>
                 <span className="toggle-text">
                   {highContrast ? "On" : "Off"}
-                </span>
-              </button>
-            </div>
-
-            {/* Reduce Motion Toggle */}
-            <div className="control-section">
-              <label className="control-label">Reduce Motion</label>
-              <button
-                className={`toggle-btn ${reduceMotion ? "active" : ""}`}
-                onClick={toggleReduceMotion}
-                aria-pressed={reduceMotion}
-              >
-                <span className="toggle-indicator"></span>
-                <span className="toggle-text">
-                  {reduceMotion ? "On" : "Off"}
                 </span>
               </button>
             </div>

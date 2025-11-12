@@ -823,3 +823,412 @@ footer a:hover {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+/* --- HIGH CONTRAST MODE --- */
+/* Applied when .high-contrast class is added to <html> element */
+
+.high-contrast body {
+  background: #ffffff;
+  color: #000000;
+}
+
+.high-contrast .post-container {
+  background: #ffffff;
+}
+
+.high-contrast #headers {
+  background: #000000;
+  border-bottom: 4px solid #000000;
+}
+
+.high-contrast #headers .left,
+.high-contrast #headers .right {
+  color: #ffffff;
+}
+
+.high-contrast #headers .right {
+  background: #333333;
+  border: 2px solid #ffffff;
+}
+
+.high-contrast #headers .right:hover {
+  background: #555555;
+  border-color: #ffffff;
+}
+
+.high-contrast .post {
+  background: #ffffff;
+  border: 3px solid #000000;
+}
+
+.high-contrast .post:nth-child(even) {
+  background: #f5f5f5;
+  border-color: #000000;
+}
+
+.high-contrast .top {
+  background: #e0e0e0;
+  border-bottom: 3px solid #000000;
+}
+
+.high-contrast .top a[href^="/users/"]:not(.time) {
+  color: #000000;
+}
+
+.high-contrast .top a[href^="/users/"]:not(.time):hover {
+  color: #333333;
+}
+
+.high-contrast .profilePic {
+  border: 3px solid #000000;
+}
+
+.high-contrast .image {
+  border: 3px solid #000000;
+}
+
+.high-contrast .text {
+  background: #f5f5f5;
+  border: 3px solid #000000;
+}
+
+.high-contrast .text p {
+  color: #000000;
+}
+
+.high-contrast .text p:first-child {
+  color: #000000;
+  font-weight: 700;
+}
+
+.high-contrast .text a {
+  color: #000000;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.high-contrast .text a:hover {
+  color: #333333;
+}
+
+.high-contrast .actions {
+  border-top: 3px solid #000000;
+}
+
+.high-contrast .comment-form {
+  background: #f5f5f5;
+  border: 3px solid #000000;
+}
+
+.high-contrast input[type="text"] {
+  background: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
+}
+
+.high-contrast input[type="text"]:focus {
+  border-color: #000000;
+  outline: 3px solid #000000;
+  outline-offset: 2px;
+}
+
+.high-contrast input[type="submit"],
+.high-contrast button {
+  font-weight: 700;
+}
+
+.high-contrast input[type="submit"][value="like"] {
+  background: #ffffff;
+  color: #000000;
+  border: 3px solid #000000;
+}
+
+.high-contrast input[type="submit"][value="like"]:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.high-contrast input[type="submit"][value="unlike"] {
+  background: #ffffff;
+  color: #000000;
+  border: 3px solid #000000;
+}
+
+.high-contrast input[type="submit"][value="unlike"]:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.high-contrast input[type="submit"][value="comment"] {
+  background: #000000;
+  color: #ffffff;
+  border: 3px solid #000000;
+}
+
+.high-contrast input[type="submit"][value="comment"]:hover {
+  background: #333333;
+  border-color: #000000;
+}
+
+.high-contrast .time {
+  color: #333333;
+}
+
+.high-contrast .time:hover {
+  color: #000000;
+}
+
+.high-contrast footer {
+  background: #000000;
+  color: #ffffff;
+  border-top: 4px solid #000000;
+}
+
+.high-contrast footer a {
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+.high-contrast footer a:hover {
+  border-bottom-color: #ffffff;
+  text-decoration: none;
+}
+
+.high-contrast .profile-card {
+  background: #ffffff;
+  border: 3px solid #000000;
+}
+
+.high-contrast .profile-pic-large {
+  border: 4px solid #000000;
+}
+
+.high-contrast .username {
+  color: #000000;
+}
+
+.high-contrast .bio {
+  color: #000000;
+}
+
+.high-contrast .joined {
+  color: #333333;
+}
+
+.high-contrast .profile-actions button {
+  border: 3px solid #000000;
+}
+
+.high-contrast .edit-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 3px solid #000000;
+}
+
+.high-contrast .create-btn {
+  background: #000000;
+  color: #ffffff;
+  border: 3px solid #000000;
+}
+
+.high-contrast .settings-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 3px solid #000000;
+}
+
+.high-contrast .profile-actions button:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.high-contrast .login-container {
+  background: #ffffff;
+}
+
+.high-contrast .login-card {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.high-contrast .login-title {
+  color: #000000;
+}
+
+.high-contrast .login-subtitle {
+  color: #333333;
+}
+
+.high-contrast .input-group input {
+  border: 3px solid #000000;
+  color: #000000;
+  background: #ffffff;
+}
+
+.high-contrast .input-group input:focus {
+  border-color: #000000;
+  outline: 3px solid #000000;
+  outline-offset: 2px;
+}
+
+.high-contrast .login-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 3px solid #000000;
+}
+
+.high-contrast .login-btn:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* High Contrast - Accessibility Controls */
+.high-contrast .global-controls-btn {
+  background: #000000;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+}
+
+.high-contrast .global-controls-btn img {
+  filter: invert(1) brightness(2);
+}
+
+.high-contrast .global-controls-btn:hover {
+  background: #333333;
+  border-color: #ffffff;
+}
+
+.high-contrast .control-panel {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.high-contrast .control-panel-header {
+  background: #e0e0e0;
+  border-bottom: 3px solid #000000;
+}
+
+.high-contrast .control-panel-header h3 {
+  color: #000000;
+}
+
+.high-contrast .accessibility-icon {
+  filter: brightness(0);
+}
+
+.high-contrast .close-panel-btn {
+  color: #000000;
+}
+
+.high-contrast .close-panel-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+.high-contrast .control-label {
+  color: #000000;
+}
+
+.high-contrast .slider-value {
+  color: #000000;
+}
+
+.high-contrast .slider-min-label,
+.high-contrast .slider-max-label {
+  color: #333333;
+}
+
+.high-contrast .font-size-slider {
+  background: #cccccc;
+}
+
+.high-contrast .font-size-slider::-webkit-slider-thumb {
+  background: #000000;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.high-contrast .font-size-slider::-moz-range-thumb {
+  background: #000000;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.high-contrast .control-btn {
+  background: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
+}
+
+.high-contrast .control-btn:hover {
+  background: #f0f0f0;
+  border-color: #000000;
+}
+
+.high-contrast .control-btn.active {
+  background: #000000;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+.high-contrast .toggle-btn {
+  background: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
+}
+
+.high-contrast .toggle-btn:hover {
+  background: #f0f0f0;
+  border-color: #000000;
+}
+
+.high-contrast .toggle-btn.active {
+  background: #e0e0e0;
+  border-color: #000000;
+}
+
+.high-contrast .toggle-indicator {
+  background: #666666;
+}
+
+.high-contrast .toggle-btn.active .toggle-indicator {
+  background: #000000;
+}
+
+.high-contrast .control-info {
+  background: #f5f5f5;
+  border: 3px solid #000000;
+}
+
+.high-contrast .control-info p {
+  color: #000000;
+}
+
+/* High Contrast - Focus States */
+.high-contrast .global-controls-btn:focus {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.high-contrast .font-size-slider:focus::-webkit-slider-thumb {
+  outline: 3px solid #000000;
+  outline-offset: 3px;
+}
+
+.high-contrast .font-size-slider:focus::-moz-range-thumb {
+  outline: 3px solid #000000;
+  outline-offset: 3px;
+}
+
+.high-contrast .control-btn:focus {
+  outline: 3px solid #000000;
+  outline-offset: 3px;
+}
+
+.high-contrast .toggle-btn:focus {
+  outline: 3px solid #000000;
+  outline-offset: 3px;
+}
