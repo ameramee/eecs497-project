@@ -1,10 +1,16 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Post from "./components/Post";
 import Login from "./login";
 import Profile from "./profile";
+import GlobalControls from "./components/GlobalControls";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -76,6 +82,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <Footer />
+          <GlobalControls />
         </>
       ) : (
         <Routes>

@@ -26,7 +26,7 @@ body {
   padding: 0;
   background: #f0f7f0;
   min-height: 100vh;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.6;
 }
 
@@ -491,4 +491,335 @@ footer a:hover {
 .login-btn:hover {
   background: #388e3c;
   color: white;
+}
+
+/* --- ACCESSIBILITY CONTROLS --- */
+.global-controls-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: white;
+  border: 3px solid #60a5fa;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.global-controls-btn svg,
+.global-controls-btn img {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.global-controls-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+}
+
+.global-controls-btn:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.global-controls-btn:focus {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.control-panel {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 380px;
+  background: white;
+  border: 3px solid #bfdbfe;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+  z-index: 999;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.control-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-radius: 13px 13px 0 0;
+  border-bottom: 3px solid #93c5fd;
+}
+
+.panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.accessibility-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.control-panel-header h3 {
+  margin: 0;
+  color: #1e3a8a;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.close-panel-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #60a5fa;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-panel-btn:hover {
+  background: rgba(96, 165, 250, 0.2);
+  color: #1e3a8a;
+  transform: none;
+}
+
+.close-panel-btn:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.control-panel-content {
+  padding: 1.5rem;
+}
+
+/* Control Sections */
+.control-section {
+  margin-bottom: 1.5rem;
+}
+
+.control-section:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.control-label {
+  display: block;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+/* Text Size Slider */
+.slider-label-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.slider-value {
+  font-weight: 600;
+  color: #2563eb;
+  font-size: 1rem;
+  min-width: 50px;
+  text-align: right;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slider-min-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.slider-max-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.font-size-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: linear-gradient(to right, #dbeafe 0%, #93c5fd 50%, #2563eb 100%);
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #2563eb;
+  border: 3px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
+}
+
+.font-size-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.5);
+}
+
+.font-size-slider::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+}
+
+.font-size-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #2563eb;
+  border: 3px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
+}
+
+.font-size-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.5);
+}
+
+.font-size-slider::-moz-range-thumb:active {
+  transform: scale(1.05);
+}
+
+.font-size-slider:focus {
+  outline: none;
+}
+
+.font-size-slider:focus::-webkit-slider-thumb {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.font-size-slider:focus::-moz-range-thumb {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Toggle Buttons */
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid #bfdbfe;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.toggle-btn:hover {
+  background: #eff6ff;
+  border-color: #60a5fa;
+}
+
+.toggle-btn.active {
+  background: #dbeafe;
+  border-color: #2563eb;
+}
+
+.toggle-btn:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.toggle-indicator {
+  width: 50px;
+  height: 26px;
+  background: #cbd5e1;
+  border-radius: 13px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-indicator::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn.active .toggle-indicator {
+  background: #2563eb;
+}
+
+.toggle-btn.active .toggle-indicator::after {
+  left: 27px;
+}
+
+.toggle-text {
+  flex: 1;
+  text-align: left;
+}
+
+/* Info Section */
+.control-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #eff6ff;
+  border: 2px solid #bfdbfe;
+  border-radius: 10px;
+}
+
+.control-info p {
+  margin: 0;
+  color: #1e40af;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
