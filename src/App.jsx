@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Post from "./components/Post";
 import Login from "./login";
 import Profile from "./profile";
+import Messaging from "./messaging";
 import GlobalControls from "./components/GlobalControls";
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
               }
             />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/messages" element={<Messaging />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <Footer />

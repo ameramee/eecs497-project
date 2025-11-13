@@ -11,6 +11,10 @@ export default function Header() {
           Profile
         </Link>
         <p style={{ color: "white" }}>|</p>
+        <Link className="right" to="/messages">
+          Messages
+        </Link>
+        <p style={{ color: "white" }}>|</p>
         <Link className="right" to="/">
           Feed
         </Link>
