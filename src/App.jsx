@@ -15,6 +15,7 @@ import GlobalControls from "./components/GlobalControls";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [posts, setPosts] = useState(null)
 
   const handleLogin = (username) => {
     setLoggedInUser(username);
@@ -24,6 +25,14 @@ function App() {
     setLoggedInUser(null);
   };
 
+  useEffect(() => {
+    fetch("http://localhost:5173/api/posts")    //TODO: Change??
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  /*
   const posts = [
     {
       id: 1,
@@ -62,7 +71,7 @@ function App() {
       ],
     },
   ];
-
+*/
   return (
     <Router>
       {loggedInUser ? (
@@ -95,5 +104,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
