@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Post from "./components/Post";
@@ -15,7 +15,7 @@ import GlobalControls from "./components/GlobalControls";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [posts, setPosts] = useState(null)
+  const [posts, setPosts] = useState([])
 
   const handleLogin = (username) => {
     setLoggedInUser(username);
@@ -26,7 +26,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5173/api/posts")    //TODO: Change??
+    fetch("http://localhost:5001/api/posts")    //TODO: Change??
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error(err));
@@ -82,9 +82,13 @@ function App() {
               path="/"
               element={
                 <div className="post-container">
-                  {posts.map((post) => (
-                    <Post key={post.id} post={post} />
-                  ))}
+                  {posts.length === 0 ? (
+                    <p>No posts yet</p>
+                  ) : (
+                    posts.map((post) => (
+                      <Post key={post.id} post={post} />
+                    ))
+                  )}
                 </div>
               }
             />
@@ -104,3 +108,4 @@ function App() {
     </Router>
   );
 }
+export default App;

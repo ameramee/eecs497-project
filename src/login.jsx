@@ -6,14 +6,37 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username.trim() === "" || password.trim() === "") {
-      setError("Please fill in both fields.");
+  
+  if (username.trim() === "" || password.trim() === "") {
+    setError("Please fill in both fields.");
+    return;
+  }
+
+  setError("");
+
+  try {
+    const res = await fetch("http://localhost:5001/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || "Login failed");
       return;
     }
-    setError("");
+
+    // tell App.js the user logged in
     onLogin(username);
+
+  } catch (err) {
+    setError("Server error");
+    console.error(err);
+  }
   };
 
   return (
