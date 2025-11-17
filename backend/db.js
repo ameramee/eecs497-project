@@ -1,13 +1,21 @@
 import { MongoClient } from "mongodb";
+import { setDefaultResultOrder } from "dns";
 
-const uri = "mongodb+srv://ameer:eecs497@gather.pzfvgew.mongodb.net/?appName=Gather";
+// Workaround for Node.js 22 DNS/TLS issues
+setDefaultResultOrder("ipv4first");
+
+const uri =
+  "mongodb+srv://ameer:eecs497@gather.pzfvgew.mongodb.net/myReactAppDB?retryWrites=true&w=majority&appName=Gather";
 
 const options = {
-  ssl: true,
   tls: true,
   tlsAllowInvalidCertificates: false,
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 10000,
   socketTimeoutMS: 45000,
+  connectTimeoutMS: 10000,
+  maxPoolSize: 10,
+  // Node.js 22 compatibility
+  directConnection: false,
 };
 
 const client = new MongoClient(uri, options);
@@ -29,8 +37,8 @@ export function getDB() {
   return db;
 }
 
-process.on('SIGINT', async () => {
+process.on("SIGINT", async () => {
   await client.close();
-  console.log('MongoDB connection closed');
+  console.log("MongoDB connection closed");
   process.exit(0);
 });
