@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 function Login({ onLogin }) {
@@ -8,35 +9,39 @@ function Login({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-  if (username.trim() === "" || password.trim() === "") {
-    setError("Please fill in both fields.");
-    return;
-  }
 
-  setError("");
-
-  try {
-    const res = await fetch("http://localhost:5001/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      setError(data.error || "Login failed");
+    if (username.trim() === "" || password.trim() === "") {
+      setError("Please fill in both fields.");
       return;
     }
 
-    // tell App.js the user logged in
-    onLogin(username);
+    setError("");
 
-  } catch (err) {
-    setError("Server error");
-    console.error(err);
-  }
+    try {
+      const res = await fetch("http://localhost:5001/api/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        return;
+      }
+
+      // tell App.js the user logged in
+      onLogin(
+        data.user.username,
+        data.user.name,
+        data.user.bio,
+        data.user.joined
+      );
+    } catch (err) {
+      setError("Server error");
+      console.error(err);
+    }
   };
 
   return (
@@ -74,6 +79,20 @@ function Login({ onLogin }) {
             Log In
           </button>
         </form>
+
+        <p style={{ marginTop: "1.5rem", fontSize: "0.95rem", color: "#555" }}>
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            style={{
+              color: "#388e3c",
+              textDecoration: "none",
+              fontWeight: 600,
+            }}
+          >
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );
