@@ -8,10 +8,35 @@ import { ObjectId } from "mongodb";
 const router = express.Router();
 const upload = multer();
 
-// Posts route
+// Posts route - optionally filtered by friends
 router.get("/get", async (req, res) => {
   try {
     const db = getDB();
+    const { username } = req.query;
+
+    // If username is provided, filter by friends list
+    if (username) {
+      const user = await db.collection("users").findOne({ username });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Get user's friends list (or empty array if none)
+      const friendsList = user.friends || [];
+
+      // Include the user's own posts and their friends' posts
+      const allowedUsernames = [username, ...friendsList];
+
+      const posts = await db
+        .collection("posts")
+        .find({ username: { $in: allowedUsernames } })
+        .toArray();
+
+      return res.json(posts);
+    }
+
+    // If no username provided, return all posts (backward compatibility)
     const posts = await db.collection("posts").find().toArray();
     res.json(posts);
   } catch (error) {

@@ -28,7 +28,15 @@ function App() {
   };
 
   const fetchPosts = () => {
-    fetch("http://localhost:5001/api/posts/get")
+    if (!loggedInUser) {
+      return;
+    }
+
+    fetch(
+      `http://localhost:5001/api/posts/get?username=${encodeURIComponent(
+        loggedInUser.username
+      )}`
+    )
       .then((res) => res.json())
       .then((data) =>
         setPosts(
@@ -39,8 +47,12 @@ function App() {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (loggedInUser) {
+      fetchPosts();
+    } else {
+      setPosts([]);
+    }
+  }, [loggedInUser]);
 
   return (
     <Router>
@@ -64,7 +76,8 @@ function App() {
                         <div className="empty-state-icon">🌱</div>
                         <h2 className="empty-state-title">No posts yet</h2>
                         <p className="empty-state-message">
-                          Be the first to share something with the community!
+                          Add some friends to see their posts here, or create
+                          your own post to get started!
                         </p>
                       </div>
                     ) : (
