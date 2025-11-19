@@ -102,7 +102,10 @@ function App() {
                   />
                 }
               />
-              <Route path="/messages" element={<Messaging />} />
+              <Route
+                path="/messages"
+                element={<Messaging loggedInUser={loggedInUser} />}
+              />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

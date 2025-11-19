@@ -1,69 +1,148 @@
-import "./styles.css";
+import { useEffect, useRef, useState } from "react";
 
-export default function Messaging() {
-  // Placeholder conversations - will be replaced with database data later
-  const conversations = [
-    {
-      id: 1,
-      username: "alice",
-      lastMessage: "Hey, how are you?",
-      timestamp: "2 hours ago",
-      unread: 2,
-    },
-    {
-      id: 2,
-      username: "bob",
-      lastMessage: "Thanks for the help!",
-      timestamp: "1 day ago",
-      unread: 0,
-    },
-    {
-      id: 3,
-      username: "carol",
-      lastMessage: "See you tomorrow!",
-      timestamp: "3 days ago",
-      unread: 0,
-    },
-  ];
+export default function Messaging({ loggedInUser }) {
+  const [friends, setFriends] = useState([]);
+  const [conversations, setConversations] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const messagesEndRef = useRef(null);
+  const messagesListRef = useRef(null);
 
-  // Placeholder messages for selected conversation - will be replaced with database data later
-  const messages = [
-    {
-      id: 1,
-      sender: "alice",
-      text: "Hey, how are you?",
-      timestamp: "2 hours ago",
-      isOwn: false,
-    },
-    {
-      id: 2,
-      sender: "you",
-      text: "I'm doing great, thanks for asking!",
-      timestamp: "1 hour ago",
-      isOwn: true,
-    },
-    {
-      id: 3,
-      sender: "alice",
-      text: "That's wonderful to hear!",
-      timestamp: "2 hours ago",
-      isOwn: false,
-    },
-  ];
+  // Fetch friends list for conversations
+  useEffect(() => {
+    if (!loggedInUser) return;
+    fetch(`http://localhost:5001/api/user/${loggedInUser.username}/friends`)
+      .then((res) => res.json())
+      .then((data) => {
+        setFriends(data);
+        setConversations(
+          data.map((f) => ({
+            username: f.username,
+            name: f.name,
+            lastMessage: "",
+            timestamp: "",
+            unread: 0,
+          }))
+        );
+        if (data.length > 0 && !selectedFriend) {
+          setSelectedFriend(data[0].username);
+        }
+      });
+  }, [loggedInUser]);
 
-  const selectedConversation = conversations[0];
+  // Fetch messages when selectedFriend changes, and poll every 2 seconds
+  useEffect(() => {
+    if (!selectedFriend || !loggedInUser) return;
+    let isMounted = true;
+    let timeoutId;
+    let firstLoad = true;
+    let prevMessages = [];
+
+    const fetchMessages = () => {
+      fetch(
+        `http://localhost:5001/api/messages/history?user1=${encodeURIComponent(
+          loggedInUser.username
+        )}&user2=${encodeURIComponent(selectedFriend)}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (isMounted) {
+            const newMessages = data.map((msg, idx) => ({
+              id: msg._id || idx,
+              sender: msg.from,
+              text: msg.content,
+              timestamp: new Date(msg.timestamp).toLocaleString(),
+              isOwn: msg.from === loggedInUser.username,
+            }));
+            // Only set loading false on first load
+            if (firstLoad) {
+              setLoading(false);
+              setInitialLoad(false);
+              firstLoad = false;
+            }
+            // Scroll logic: if user is at bottom or new message arrives, scroll to bottom
+            const list = messagesListRef.current;
+            const isAtBottom =
+              list &&
+              list.scrollHeight - list.scrollTop - list.clientHeight < 50;
+            const newMsgArrived =
+              prevMessages.length && newMessages.length > prevMessages.length;
+            setMessages((oldMsgs) => {
+              prevMessages = newMessages;
+              return newMessages;
+            });
+            setTimeout(() => {
+              if (list && (isAtBottom || newMsgArrived)) {
+                list.scrollTop = list.scrollHeight;
+              }
+            }, 10);
+          }
+        });
+    };
+
+    setLoading(true);
+    setInitialLoad(true);
+    fetchMessages();
+    const poll = () => {
+      timeoutId = setTimeout(() => {
+        fetchMessages();
+        poll();
+      }, 2000);
+    };
+    poll();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [selectedFriend, loggedInUser]);
+
+  // Send message
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!messageInput.trim() || !selectedFriend) return;
+    const msg = messageInput.trim();
+    setMessageInput("");
+    const res = await fetch("http://localhost:5001/api/messages/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fromUsername: loggedInUser.username,
+        toUsername: selectedFriend,
+        content: msg,
+      }),
+    });
+    if (res.ok) {
+      // After sending, scroll to bottom
+      setTimeout(() => {
+        if (messagesListRef.current) {
+          messagesListRef.current.scrollTop =
+            messagesListRef.current.scrollHeight;
+        }
+      }, 50);
+    }
+  };
 
   return (
     <div className="messaging-page">
       <div className="messaging-container">
         <div className="conversations-list">
           <h2 className="conversations-title">Messages</h2>
+          {conversations.length === 0 && (
+            <div className="empty-state">
+              <p>No friends to message yet.</p>
+            </div>
+          )}
           {conversations.map((conversation) => (
             <div
-              key={conversation.id}
+              key={conversation.username}
               className={`conversation-item ${
-                conversation.id === selectedConversation.id ? "active" : ""
+                conversation.username === selectedFriend ? "active" : ""
               }`}
+              onClick={() => setSelectedFriend(conversation.username)}
             >
               <img
                 src="/img/profile.png"
@@ -75,65 +154,91 @@ export default function Messaging() {
                   <span className="conversation-username">
                     {conversation.username}
                   </span>
-                  {conversation.unread > 0 && (
-                    <span className="unread-badge">{conversation.unread}</span>
-                  )}
                 </div>
-                <p className="conversation-preview">{conversation.lastMessage}</p>
-                <span className="conversation-time">{conversation.timestamp}</span>
+                <p className="conversation-preview">
+                  {conversation.lastMessage}
+                </p>
+                <span className="conversation-time">
+                  {conversation.timestamp}
+                </span>
               </div>
             </div>
           ))}
         </div>
 
         <div className="message-area">
-          <div className="message-header">
-            <img
-              src="/img/profile.png"
-              alt={selectedConversation.username}
-              className="message-header-avatar"
-            />
-            <div className="message-header-info">
-              <h3>{selectedConversation.username}</h3>
-              <p className="message-header-status">Active now</p>
-            </div>
-          </div>
-
-          <div className="messages-list">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`message ${message.isOwn ? "message-own" : "message-other"}`}
-              >
-                <div className="message-content">
-                  <p className="message-text">{message.text}</p>
-                  <span className="message-time">{message.timestamp}</span>
+          {selectedFriend ? (
+            <>
+              <div className="message-header">
+                <img
+                  src="/img/profile.png"
+                  alt={selectedFriend}
+                  className="message-header-avatar"
+                />
+                <div className="message-header-info">
+                  <h3>{selectedFriend}</h3>
+                  <p className="message-header-status">Active now</p>
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="message-input-area">
-            <form
-              className="message-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // Message sending functionality will be added later
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="message-input"
-              />
-              <button type="submit" className="message-send-btn">
-                Send
-              </button>
-            </form>
-          </div>
+              <div
+                className="messages-list"
+                ref={messagesListRef}
+                style={{ minHeight: 200, maxHeight: 400, overflowY: "auto" }}
+              >
+                {initialLoad && loading ? (
+                  <div>Loading...</div>
+                ) : messages.length === 0 ? (
+                  <div className="empty-state">
+                    <p>No messages yet. Start the conversation!</p>
+                  </div>
+                ) : (
+                  messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`message ${
+                        message.isOwn ? "message-own" : "message-other"
+                      }`}
+                    >
+                      <div className="message-content">
+                        <p className="message-text">{message.text}</p>
+                        <span className="message-time">
+                          {message.timestamp}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              <div className="message-input-area">
+                <form className="message-form" onSubmit={handleSendMessage}>
+                  <input
+                    type="text"
+                    placeholder="Type a message..."
+                    className="message-input"
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    disabled={!selectedFriend}
+                  />
+                  <button
+                    type="submit"
+                    className="message-send-btn"
+                    disabled={!selectedFriend || !messageInput.trim()}
+                  >
+                    Send
+                  </button>
+                </form>
+              </div>
+            </>
+          ) : (
+            <div className="empty-state">
+              <p>Select a friend to start messaging.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-

@@ -3,8 +3,10 @@ import "./config.js";
 
 import express from "express";
 import { connectDB } from "./db.js";
+
 import userRoutes from "./routes/user.js";
 import postsRoutes from "./routes/posts.js";
+import messagesRoutes from "./routes/messages.js";
 
 const app = express();
 
@@ -36,6 +38,7 @@ app.get("/api/test", (req, res) => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api/messages", messagesRoutes);
 
 // Catch-all for undefined routes
 app.use((req, res) => {
