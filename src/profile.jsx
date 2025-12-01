@@ -2,7 +2,7 @@ import CreatePost from "./components/CreatePost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
 
-export default function Profile({ loggedInUser, onPostCreated }) {
+export default function Profile({ loggedInUser, onPostCreated, onLogout }) {
   const user = {
     name: loggedInUser.name,
     username: loggedInUser.username,
@@ -232,7 +232,9 @@ export default function Profile({ loggedInUser, onPostCreated }) {
                 onPostCreated={onPostCreated}
               />
             )}
-            <button className="settings-btn">Settings</button>
+            <button className="settings-btn" onClick={onLogout}>
+              Log Out
+            </button>
           </div>
         </div>
 
