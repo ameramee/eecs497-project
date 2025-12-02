@@ -14,6 +14,7 @@ import Profile from "./profile";
 import Messaging from "./messaging";
 import GlobalControls from "./components/GlobalControls";
 import CreatePost from "./components/CreatePost";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -101,6 +102,10 @@ function App() {
                     onPostCreated={fetchPosts}
                   />
                 }
+              />
+              <Route
+                path="/edit-profile"
+                element={<EditProfile loggedInUser={loggedInUser} />}
               />
               <Route
                 path="/messages"

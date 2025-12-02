@@ -443,4 +443,36 @@ router.get("/:username/friend-status/:otherUsername", async (req, res) => {
   }
 });
 
+router.post("/update", async (req, res) => {
+  try {
+    const { username, name, bio, profilePic } = req.body;
+
+    if (!username) {
+      return res.status(400).json({ error: "Username required" });
+    }
+
+    const db = getDB();
+
+    const result = await db.collection("users").updateOne(
+      { username },
+      {
+        $set: {
+          name,
+          bio,
+          profilePic,
+        },
+      }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ success: true, message: "Profile updated" });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;

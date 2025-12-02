@@ -1,15 +1,10 @@
 import CreatePost from "./components/CreatePost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile({ loggedInUser, onPostCreated }) {
-  const user = {
-    name: loggedInUser.name,
-    username: loggedInUser.username,
-    bio: loggedInUser.bio || "No bio yet.",
-    profilePic: "img/profile.png",
-    joined: loggedInUser.joined,
-  };
+  const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
   const [friends, setFriends] = useState([]);
@@ -18,6 +13,13 @@ export default function Profile({ loggedInUser, onPostCreated }) {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [friendStatuses, setFriendStatuses] = useState({});
+  const [user, setUser] = useState({
+    name: loggedInUser.name,
+    username: loggedInUser.username,
+    bio: loggedInUser.bio || "No bio yet.",
+    profilePic: loggedInUser.profilePic || "img/profile.png",
+    joined: loggedInUser.joined,
+  });
 
   const fetchPosts = () => {
     fetch(`http://localhost:5001/api/posts/get/${loggedInUser.username}`)
@@ -39,6 +41,21 @@ export default function Profile({ loggedInUser, onPostCreated }) {
     )
       .then((res) => res.json())
       .then((data) => setFriendRequests(data))
+      .catch((err) => console.error(err));
+  };
+
+  const fetchUserProfile = () => {
+    fetch(`http://localhost:5001/api/user/${loggedInUser.username}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUser({
+          name: data.name,
+          username: data.username,
+          bio: data.bio || "No bio yet.",
+          profilePic: data.profilePic || "img/profile.png",
+          joined: data.joined,
+        });
+      })
       .catch((err) => console.error(err));
   };
 
@@ -193,7 +210,9 @@ export default function Profile({ loggedInUser, onPostCreated }) {
     }
   };
 
+  // Fetch initial data when component mounts
   useEffect(() => {
+    fetchUserProfile();
     fetchPosts();
     fetchFriends();
     fetchFriendRequests();
@@ -225,7 +244,9 @@ export default function Profile({ loggedInUser, onPostCreated }) {
           <p className="joined">{user.joined}</p>
 
           <div className="profile-actions">
-            <button className="edit-btn">Edit Profile</button>
+            <button className="edit-btn" onClick={() => navigate("/edit-profile")}>
+              Edit Profile
+            </button>
             {loggedInUser && (
               <CreatePost
                 loggedInUser={loggedInUser}
