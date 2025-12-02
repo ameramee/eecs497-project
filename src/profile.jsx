@@ -253,7 +253,9 @@ export default function Profile({ loggedInUser, onPostCreated }) {
                 onPostCreated={onPostCreated}
               />
             )}
-            <button className="settings-btn">Settings</button>
+            <button className="settings-btn" onClick={onLogout}>
+              Log Out
+            </button>
           </div>
         </div>
 

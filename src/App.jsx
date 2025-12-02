@@ -20,12 +20,30 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [posts, setPosts] = useState([]);
 
+  // Restore logged-in user from localStorage on mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem("loggedInUser");
+    if (savedUser) {
+      try {
+        setLoggedInUser(JSON.parse(savedUser));
+      } catch (err) {
+        console.error("Error parsing saved user data:", err);
+        localStorage.removeItem("loggedInUser");
+      }
+    }
+  }, []);
+
   const handleLogin = (username, name, bio, joined) => {
-    setLoggedInUser({ username, name, bio, joined });
+    const user = { username, name, bio, joined };
+    setLoggedInUser(user);
+    // Save to localStorage
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
   };
 
   const handleLogout = () => {
     setLoggedInUser(null);
+    // Clear from localStorage
+    localStorage.removeItem("loggedInUser");
   };
 
   const fetchPosts = () => {
@@ -100,6 +118,7 @@ function App() {
                   <Profile
                     loggedInUser={loggedInUser}
                     onPostCreated={fetchPosts}
+                    onLogout={handleLogout}
                   />
                 }
               />
