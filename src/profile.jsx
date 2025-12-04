@@ -24,8 +24,19 @@ export default function Profile({ loggedInUser, onPostCreated }) {
   const fetchPosts = () => {
     fetch(`http://localhost:5001/api/posts/get/${loggedInUser.username}`)
       .then((res) => res.json())
-      .then((data) => setPosts(data))
+      .then((data) =>
+        setPosts(
+          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        )
+      )
       .catch((err) => console.error(err));
+  };
+
+  const onProfilePostCreated = () => {
+    fetchPosts();
+    if (onPostCreated) {
+      onPostCreated();
+    }
   };
 
   const fetchFriends = () => {
@@ -250,7 +261,7 @@ export default function Profile({ loggedInUser, onPostCreated }) {
             {loggedInUser && (
               <CreatePost
                 loggedInUser={loggedInUser}
-                onPostCreated={onPostCreated}
+                onPostCreated={onProfilePostCreated}
               />
             )}
             <button className="settings-btn" onClick={onLogout}>

@@ -13,6 +13,29 @@ export default function CreatePost({ loggedInUser, onPostCreated }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file type
+      const supportedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+
+      if (!file.type || !supportedTypes.includes(file.type.toLowerCase())) {
+        setError(
+          "Unsupported file type. Please upload an image file (JPEG, PNG, GIF, or WebP)."
+        );
+        setSelectedFile(null);
+        setImagePreview(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        return;
+      }
+
+      // Clear any previous errors
+      setError("");
       setSelectedFile(file);
       // Create preview
       const reader = new FileReader();
