@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Post from "./components/Post";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile({ loggedInUser, onPostCreated }) {
+export default function Profile({ loggedInUser, onPostCreated, onLogout }) {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
